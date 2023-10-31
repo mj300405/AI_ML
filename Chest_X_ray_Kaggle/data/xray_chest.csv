@@ -1,0 +1,98 @@
+dcm,jpg,type
+/abscess/0.dcm,/abscess/0.jpg,abscess
+/abscess/1.dcm,/abscess/1.jpg,abscess
+/abscess/2.dcm,/abscess/2.jpg,abscess
+/abscess/3.dcm,/abscess/3.jpg,abscess
+/abscess/4.dcm,/abscess/4.jpg,abscess
+/abscess/5.dcm,/abscess/5.jpg,abscess
+/abscess/6.dcm,/abscess/6.jpg,abscess
+/abscess/7.dcm,/abscess/7.jpg,abscess
+/abscess/8.dcm,/abscess/8.jpg,abscess
+/ards/0.dcm,/ards/0.jpg,ards
+/ards/1.dcm,/ards/1.jpg,ards
+/atelectasis/0.dcm,/atelectasis/0.jpg,atelectasis
+/atelectasis/1.dcm,/atelectasis/1.jpg,atelectasis
+/atelectasis/2.dcm,/atelectasis/2.jpg,atelectasis
+/atelectasis/3.dcm,/atelectasis/3.jpg,atelectasis
+/atelectasis/4.dcm,/atelectasis/4.jpg,atelectasis
+/atelectasis/5.dcm,/atelectasis/5.jpg,atelectasis
+/atelectasis/6.dcm,/atelectasis/6.jpg,atelectasis
+/atherosclerosis_of_the_aorta/0.dcm,/atherosclerosis_of_the_aorta/0.jpg,atherosclerosis of the aorta
+/atherosclerosis_of_the_aorta/1.dcm,/atherosclerosis_of_the_aorta/1.jpg,atherosclerosis of the aorta
+/atherosclerosis_of_the_aorta/2.dcm,/atherosclerosis_of_the_aorta/2.jpg,atherosclerosis of the aorta
+/atherosclerosis_of_the_aorta/3.dcm,/atherosclerosis_of_the_aorta/3.jpg,atherosclerosis of the aorta
+/atherosclerosis_of_the_aorta/4.dcm,/atherosclerosis_of_the_aorta/4.jpg,atherosclerosis of the aorta
+/atherosclerosis_of_the_aorta/5.dcm,/atherosclerosis_of_the_aorta/5.jpg,atherosclerosis of the aorta
+/cardiomegaly/0.dcm,/cardiomegaly/0.jpg,cardiomegaly
+/cardiomegaly/1.dcm,/cardiomegaly/1.jpg,cardiomegaly
+/cardiomegaly/2.dcm,/cardiomegaly/2.jpg,cardiomegaly
+/cardiomegaly/3.dcm,/cardiomegaly/3.jpg,cardiomegaly
+/cardiomegaly/4.dcm,/cardiomegaly/4.jpg,cardiomegaly
+/cardiomegaly/5.dcm,/cardiomegaly/5.jpg,cardiomegaly
+/cardiomegaly/6.dcm,/cardiomegaly/6.jpg,cardiomegaly
+/cardiomegaly/7.dcm,/cardiomegaly/7.jpg,cardiomegaly
+/emphysema/0.dcm,/emphysema/0.jpg,emphysema
+/emphysema/1.dcm,/emphysema/1.jpg,emphysema
+/emphysema/2.dcm,/emphysema/2.jpg,emphysema
+/emphysema/3.dcm,/emphysema/3.jpg,emphysema
+/emphysema/4.dcm,/emphysema/4.jpg,emphysema
+/fracture/0.dcm,/fracture/0.jpg,fracture
+/fracture/1.dcm,/fracture/1.jpg,fracture
+/fracture/2.dcm,/fracture/2.jpg,fracture
+/fracture/3.dcm,/fracture/3.jpg,fracture
+/fracture/4.dcm,/fracture/4.jpg,fracture
+/fracture/5.dcm,/fracture/5.jpg,fracture
+/hydropneumothorax/0.dcm,/hydropneumothorax/0.jpg,hydropneumothorax
+/hydropneumothorax/1.dcm,/hydropneumothorax/1.jpg,hydropneumothorax
+/hydropneumothorax/2.dcm,/hydropneumothorax/2.jpg,hydropneumothorax
+/hydropneumothorax/3.dcm,/hydropneumothorax/3.jpg,hydropneumothorax
+/hydropneumothorax/4.dcm,/hydropneumothorax/4.jpg,hydropneumothorax
+/hydropneumothorax/5.dcm,/hydropneumothorax/5.jpg,hydropneumothorax
+/hydropneumothorax/6.dcm,/hydropneumothorax/6.jpg,hydropneumothorax
+/hydropneumothorax/7.dcm,/hydropneumothorax/7.jpg,hydropneumothorax
+/hydropneumothorax/8.dcm,/hydropneumothorax/8.jpg,hydropneumothorax
+/hydrothorax/0.dcm,/hydrothorax/0.jpg,hydrothorax
+/hydrothorax/1.dcm,/hydrothorax/1.jpg,hydrothorax
+/hydrothorax/2.dcm,/hydrothorax/2.jpg,hydrothorax
+/hydrothorax/3.dcm,/hydrothorax/3.jpg,hydrothorax
+/hydrothorax/4.dcm,/hydrothorax/4.jpg,hydrothorax
+/pneumonia/0.dcm,/pneumonia/0.jpg,pneumonia
+/pneumonia/1.dcm,/pneumonia/1.jpg,pneumonia
+/pneumonia/2.dcm,/pneumonia/2.jpg,pneumonia
+/pneumonia/3.dcm,/pneumonia/3.jpg,pneumonia
+/pneumonia/4.dcm,/pneumonia/4.jpg,pneumonia
+/pneumosclerosis/0.dcm,/pneumosclerosis/0.jpg,pneumosclerosis
+/pneumosclerosis/1.dcm,/pneumosclerosis/1.jpg,pneumosclerosis
+/pneumosclerosis/2.dcm,/pneumosclerosis/2.jpg,pneumosclerosis
+/pneumosclerosis/3.dcm,/pneumosclerosis/3.jpg,pneumosclerosis
+/post_inflammatory_changes/0.dcm,/post_inflammatory_changes/0.jpg,post-inflammatory changes
+/post_inflammatory_changes/1.dcm,/post_inflammatory_changes/1.jpg,post-inflammatory changes
+/post_inflammatory_changes/2.dcm,/post_inflammatory_changes/2.jpg,post-inflammatory changes
+/post_inflammatory_changes/3.dcm,/post_inflammatory_changes/3.jpg,post-inflammatory changes
+/post_inflammatory_changes/4.dcm,/post_inflammatory_changes/4.jpg,post-inflammatory changes
+/post_inflammatory_changes/5.dcm,/post_inflammatory_changes/5.jpg,post-inflammatory changes
+/post_inflammatory_changes/6.dcm,/post_inflammatory_changes/6.jpg,post-inflammatory changes
+/post_traumatic_ribs_deformation/0.dcm,/post_traumatic_ribs_deformation/0.jpg,post-traumatic ribs deformation
+/post_traumatic_ribs_deformation/1.dcm,/post_traumatic_ribs_deformation/1.jpg,post-traumatic ribs deformation
+/post_traumatic_ribs_deformation/2.dcm,/post_traumatic_ribs_deformation/2.jpg,post-traumatic ribs deformation
+/post_traumatic_ribs_deformation/3.dcm,/post_traumatic_ribs_deformation/3.jpg,post-traumatic ribs deformation
+/post_traumatic_ribs_deformation/4.dcm,/post_traumatic_ribs_deformation/4.jpg,post-traumatic ribs deformation
+/sarcoidosis/0.dcm,/sarcoidosis/0.jpg,sarcoidosis
+/sarcoidosis/1.dcm,/sarcoidosis/1.jpg,sarcoidosis
+/sarcoidosis/2.dcm,/sarcoidosis/2.jpg,sarcoidosis
+/sarcoidosis/3.dcm,/sarcoidosis/3.jpg,sarcoidosis
+/sarcoidosis/4.dcm,/sarcoidosis/4.jpg,sarcoidosis
+/sarcoidosis/5.dcm,/sarcoidosis/5.jpg,sarcoidosis
+/scoliosis/0.dcm,/scoliosis/0.jpg,scoliosis
+/scoliosis/1.dcm,/scoliosis/1.jpg,scoliosis
+/scoliosis/2.dcm,/scoliosis/2.jpg,scoliosis
+/scoliosis/3.dcm,/scoliosis/3.jpg,scoliosis
+/tuberculosis/0.dcm,/tuberculosis/0.jpg,tuberculosis
+/tuberculosis/1.dcm,/tuberculosis/1.jpg,tuberculosis
+/tuberculosis/2.dcm,/tuberculosis/2.jpg,tuberculosis
+/tuberculosis/3.dcm,/tuberculosis/3.jpg,tuberculosis
+/tuberculosis/4.dcm,/tuberculosis/4.jpg,tuberculosis
+/venous_congestion/0.dcm,/venous_congestion/0.jpg,venous congestion
+/venous_congestion/1.dcm,/venous_congestion/1.jpg,venous congestion
+/venous_congestion/2.dcm,/venous_congestion/2.jpg,venous congestion
+/venous_congestion/3.dcm,/venous_congestion/3.jpg,venous congestion
