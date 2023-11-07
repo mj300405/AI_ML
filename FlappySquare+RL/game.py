@@ -55,20 +55,21 @@ class Bird(pygame.sprite.Sprite):
 
 # Pipe class
 class Pipe(pygame.sprite.Sprite):
-    GAP_SIZE = 200  # Define the gap size here, used for both top and bottom pipes
-
-    def __init__(self, inverted, ypos):
+    def __init__(self, inverted, ypos, gap_size, pipe_height):
         super().__init__()
-        self.image = pygame.Surface((PIPE_WIDTH, PIPE_HEIGHT))  # Use PIPE_HEIGHT here
+        self.image = pygame.Surface((80, pipe_height))
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
+        self.passed = False
         self.inverted = inverted
+        self.GAP_SIZE = gap_size
         if inverted:
             self.image = pygame.transform.flip(self.image, False, True)
-            self.rect.bottomleft = (SCREEN_WIDTH + PIPE_WIDTH, ypos - self.GAP_SIZE // 2)
+            self.rect.bottomleft = (SCREEN_WIDTH + 80, ypos - gap_size / 2)
+            self.gap_center_y = ypos - gap_size / 2 - pipe_height / 2
         else:
-            self.rect.topleft = (SCREEN_WIDTH + PIPE_WIDTH, ypos + self.GAP_SIZE // 2)
-        self.passed = False
+            self.rect.topleft = (SCREEN_WIDTH + 80, ypos + gap_size / 2)
+            self.gap_center_y = ypos + gap_size / 2 + pipe_height / 2
 
     def update(self):
         self.rect.x -= 5
@@ -114,19 +115,27 @@ class FlappyBirdGame:
         self.running = True
 
     def _create_pipe_pair(self, xpos):
-        # Helper function to create pipes
-        height = random.randint(200, 400)
-        bottom_pipe = Pipe(False, height)
-        top_pipe = Pipe(True, height)
-        self.pipes.add(bottom_pipe, top_pipe)
-        self.all_sprites.add(bottom_pipe, top_pipe)
+        gap_size = 200  # Set your desired gap size
+        ypos = random.randint(100 + gap_size // 2, SCREEN_HEIGHT - 100 - gap_size // 2)  # Gap's vertical position
+
+        # Create the bottom pipe
+        bottom_pipe = Pipe(False, ypos, gap_size, PIPE_HEIGHT)
+        self.pipes.add(bottom_pipe)
+        self.all_sprites.add(bottom_pipe)
+
+        # Create the top pipe
+        top_pipe = Pipe(True, ypos, gap_size, PIPE_HEIGHT)
+        self.pipes.add(top_pipe)
+        self.all_sprites.add(top_pipe)
+
 
     def _get_next_pipe(self):
         # Find the next pipe that is to the right of the bird
         for pipe in self.pipes:
-            if pipe.rect.left > self.bird.rect.right:
+            if pipe.rect.left > self.bird.rect.right and not pipe.inverted:
                 return pipe
         return None
+
 
     def get_state(self):
         # Find the next pipe that the bird is approaching
@@ -159,18 +168,53 @@ class FlappyBirdGame:
 
         return state
 
+    def _check_passed_pipe(self):
+        pipe_passed = False
+        pipe_passed_recently = False
+        
+        # Logic to determine if a pipe was passed
+        # This could be based on the bird's position relative to the pipes
+        # You need to store the state of the pipes and whether they've been passed or not
+        for pipe in self.pipes:
+            if not pipe.passed and pipe.rect.right < self.bird.rect.left:
+                pipe.passed = True
+                pipe_passed = True
+                pipe_passed_recently = True
+        
+        return pipe_passed, pipe_passed_recently
+
     def step(self, action):
         # Make one step in the game given the agent's action.
         if action == 1:
             self.bird.jump()
+        
         # Update game state and calculate reward.
         reward = 0.1  # Give a small reward for staying alive each frame.
         self.all_sprites.update()
         self._handle_pipes()
+        
+        # Check if the bird has passed any pipes
+        pipe_passed_recently = False
+        for pipe in self.pipes:
+            if not pipe.passed and pipe.rect.right < self.bird.rect.left:
+                pipe.passed = True
+                pipe_passed_recently = True
+                reward += 5.0  # Increment reward for passing a pipe
+
+        # Proximity to the next pipe gap
+        next_pipe = self._get_next_pipe()
+        if next_pipe:
+            gap_center_y = next_pipe.gap_center_y
+            vertical_distance_to_gap_center = abs(self.bird.rect.centery - gap_center_y)
+            reward -= vertical_distance_to_gap_center * 0.01
+
+        # Penalty for dying
         if pygame.sprite.spritecollideany(self.bird, self.pipes) or not self.bird.alive:
-            reward = -1  # Give a negative reward for dying.
-            self.running = False  # End the game.
+            reward = -10  # Give a negative reward for dying.
+            self.running = False
+
         return self.get_state(), reward, not self.running
+
 
     def _handle_pipes(self):
         # Create new pipes and update existing pipes.
@@ -190,8 +234,9 @@ class FlappyBirdGame:
         self.screen.blit(score_text, (10, 10))
         # Update the full display Surface to the screen
         pygame.display.flip()
-        # Add an explicit delay
-        pygame.time.delay(200)  # Pause for 200 milliseconds (0.2 seconds)
+        # Control the frame rate to make it visible
+        self.clock.tick(FPS)  # Ensure FPS is set to a reasonable number
+
 
 
     def reset(self):
@@ -226,8 +271,10 @@ class FlappyBirdGame:
                     self.score += 1
             
             # Create new pipes
+            # Inside the game loop
             if not self.pipes or all(pipe.rect.right < SCREEN_WIDTH // 2 for pipe in self.pipes):
-                self._create_pipe_pair(SCREEN_WIDTH + 100)
+                self._create_pipe_pair(SCREEN_WIDTH + PIPE_WIDTH)
+
             
             # Draw everything
             self.all_sprites.draw(self.screen)

@@ -33,7 +33,7 @@ class LSTMNet(nn.Module):
 
         return x, (hidden1, hidden2)
 
-    def init_hidden(self, batch_size, device):
+    def init_hidden(self, batch_size, device = 'cpu'):
         # Initialize hidden and cell states for the first LSTM layer
         hidden_state1 = torch.zeros(self.num_layers, batch_size, self.hidden_size, device=device)
         cell_state1 = torch.zeros(self.num_layers, batch_size, self.hidden_size, device=device)
