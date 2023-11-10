@@ -2,6 +2,7 @@ from model import LSTMNet
 import torch
 from game import FlappyBirdGame
 import os
+import pygame
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -13,32 +14,43 @@ def load_model(input_size, hidden_size, output_size, num_layers, model_path = 'f
         print(f"Model loaded from {model_path}")
     return model
 
-def play_with_model(game, model, device='cpu'):
-    state = game.reset()
-    hidden = model.init_hidden(1, device)  # Batch size is 1 since we're evaluating one step at a time
+# Evaluation loop
+def evaluate_model(game_env, model, device):
+    state = game_env.reset()
+    hidden = model.init_hidden(1, device)  # Initialize hidden state for the LSTM layers
     
-    while game.running:
-        # Preprocess state for LSTM input
-        state_tensor = torch.from_numpy(state).float().unsqueeze(0).to(device)  # Add batch dimension
-        with torch.no_grad():  # No need to track gradients
-            # Forward pass through the model
-            action_probabilities, hidden = model(state_tensor, hidden)
-        
-        # Assuming the model outputs raw scores (logits)
-        action = torch.argmax(action_probabilities, dim=1).item()
+    while True:  # Run until 'Q' is pressed
+        # Convert the state into a tensor and add batch and sequence dimensions
+        state_tensor = torch.FloatTensor(state).unsqueeze(0).unsqueeze(0).to(device)
 
-        # Perform the action in the environment
-        next_state, reward, done = game.step(action)
-        
-        # Render the game to visualize the agent's performance
-        game.render()
-        
+        # Get Q values and hidden state from the model
+        with torch.no_grad():  # No need to compute gradients when not training
+            q_values, hidden = model(state_tensor, hidden)
+            hidden = (hidden[0][0].detach(), hidden[0][1].detach()), (hidden[1][0].detach(), hidden[1][1].detach())
+        # Choose the action with the highest Q-value
+        action = q_values.max(1)[1].view(1, 1).item()
+
+        # Take the selected action and observe the new state and reward
+        next_state, _, done = game_env.step(action)
+
+        # Move to the next state
+        state = next_state
+
+        # Render the game
+        game_env.render()
+
+        # Check for 'Q' to quit
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
+                return
+
+        # Check if the game is over
         if done:
-            break  # Exit the loop if the game is over
-        
-        state = next_state  # Update the state
+            state = game_env.reset()  # Reset the game if it's over
 
-if __name__ == '__main__':
+
+# If running this module directly, call play_with_model
+if __name__ == "__main__":
 
     input_size = 6  # Number of features in your state vector
     hidden_size = 128  # Number of features in LSTM hidden state
@@ -46,5 +58,9 @@ if __name__ == '__main__':
     num_layers = 2  # Number of LSTM layers
 
     game = FlappyBirdGame()
-    model = load_model(input_size, hidden_size, output_size, num_layers)
-    play_with_model(game, model, device)
+    model = LSTMNet(input_size, hidden_size, output_size, num_layers)
+    model.load_state_dict(torch.load('flappy_bird_lstm.pth'))
+    model.eval()  # Set the model to evaluation mode
+    model.to(device)
+
+    evaluate_model(game, model, device)
