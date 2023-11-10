@@ -27,7 +27,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.0001)
 loss_fn = torch.nn.MSELoss()
 
 # Experience replay memory
-memory = deque(maxlen=10000)
+memory = deque(maxlen=100000)
 
 # Training hyperparameters
 num_episodes = 20000
@@ -35,7 +35,8 @@ batch_size = 1
 gamma = 0.99  # discount factor
 epsilon_start = 0.7
 epsilon_end = 0.01
-epsilon_decay = 0.995
+epsilon_decay = 0.7
+decay_scale = 1
 
 # Load model if it exists
 model_path = 'flappy_bird_lstm.pth'
@@ -45,14 +46,21 @@ if os.path.isfile(model_path):
     print(f"Model loaded from {model_path}")
 
 # Function to decrease epsilon
-def decay_epsilon(episode):
-    return max(epsilon_end, epsilon_start - (episode / num_episodes) * (epsilon_start - epsilon_end))
+def decay_epsilon(episode, num_episodes=num_episodes, epsilon_start=epsilon_start, epsilon_end=epsilon_end, decay_factor=2):
+    decay_rate = (epsilon_start - epsilon_end) * decay_factor / num_episodes
+    return max(epsilon_end, epsilon_start - decay_rate * episode)
+
+
 
 # Initialize epsilon
 epsilon = epsilon_start
 
 # Initialize best score
 best_score = -float('inf')
+
+render_enabled = False
+print_every = 10
+save_interval = 100
 
 # Training loop
 for episode in range(num_episodes):
@@ -68,6 +76,9 @@ for episode in range(num_episodes):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:  # Press 'R' to toggle rendering
+                    render_enabled = not render_enabled
 
         # Convert the state into a tensor and add batch and sequence dimensions
         state_tensor = torch.FloatTensor(state).unsqueeze(0).unsqueeze(0).to(device)
@@ -127,7 +138,6 @@ for episode in range(num_episodes):
             loss.backward()
             optimizer.step()
 
-
         # Update epsilon
         epsilon = decay_epsilon(episode)
 
@@ -135,27 +145,28 @@ for episode in range(num_episodes):
             break
 
         # Optionally render the game
-        # Optionally render the game
-    if episode % 100 == 0:  # Change this as needed to control how often you render
-        for _ in range(5):  # Render the game for a few frames
+        if render_enabled:
             game_env.render()
-            pygame.time.delay(200)  # Delay to slow down the rendering, in milliseconds
-            clock.tick(30)  # Control the loop to run at 30 FPS or any other suitable FPS
 
-    # Check if the current episode's score is better than the best score
+    # Save the model periodically and/or when the performance improves
     if total_reward > best_score:
         best_score = total_reward
-        # Save the model with a new filename indicating a performance improvement
-        best_model_path = f'flappy_bird_lstm_best.pth'
+        best_model_path = 'flappy_bird_lstm_best.pth'
         torch.save(model.state_dict(), best_model_path)
-        print(f"New best score! Model saved to {best_model_path}")
 
-    # Save the model periodically
-    if episode % 100 == 0:
+    if episode % save_interval == 0:
+        model_path = 'flappy_bird_lstm.pth'
         torch.save(model.state_dict(), model_path)
-        print(f"Model saved to {model_path}")
 
-    print(f"Episode {episode} complete with total reward: {total_reward}")
+    # Print episode stats without tensor details
+    if episode % print_every == 0:
+        print(f"Episode {episode} complete with total reward: {total_reward}, Epsilon: {epsilon}")
+
+# Outside of the training loop
+print(f"Training completed over {num_episodes} episodes")
+print(f"Final Epsilon value: {epsilon}")
+
+
 
 # Close the game when training is complete
 pygame.quit()

@@ -31,6 +31,7 @@ class Bird(pygame.sprite.Sprite):
         self.velocity = 0
         self.gravity = 0.7  # Decreased gravity for smoother fall
         self.time_since_last_flap = 0
+        self.alive = True
 
     def update(self):
         if self.alive:
