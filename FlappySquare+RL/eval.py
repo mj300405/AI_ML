@@ -58,8 +58,7 @@ if __name__ == "__main__":
     num_layers = 2  # Number of LSTM layers
 
     game = FlappyBirdGame()
-    model = LSTMNet(input_size, hidden_size, output_size, num_layers)
-    model.load_state_dict(torch.load('flappy_bird_lstm.pth'))
+    model = load_model(input_size, hidden_size, output_size, num_layers)
     model.eval()  # Set the model to evaluation mode
     model.to(device)
 

@@ -30,10 +30,10 @@ loss_fn = torch.nn.MSELoss()
 memory = deque(maxlen=100000)
 
 # Training hyperparameters
-num_episodes = 20000
+num_episodes = 5000
 batch_size = 1
 gamma = 0.99  # discount factor
-epsilon_start = 0.7
+epsilon_start = 0.1
 epsilon_end = 0.01
 epsilon_decay = 0.7
 decay_scale = 1
