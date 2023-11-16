@@ -185,33 +185,45 @@ class FlappyBirdGame:
         return pipe_passed, pipe_passed_recently
 
     def step(self, action):
+        # Update game state
+        self.all_sprites.update()
+        self._handle_pipes()
+
+        reward = 0.01  # Reward for living
+
         # Make one step in the game given the agent's action.
         if action == 1:
             self.bird.jump()
         
-        # Update game state and calculate reward.
-        reward = 0.1  # Give a small reward for staying alive each frame.
-        self.all_sprites.update()
-        self._handle_pipes()
-        
-        # Check if the bird has passed any pipes
-        pipe_passed_recently = False
+        # Increase reward for passing a pipe
         for pipe in self.pipes:
             if not pipe.passed and pipe.rect.right < self.bird.rect.left:
                 pipe.passed = True
-                pipe_passed_recently = True
-                reward += 5.0  # Increment reward for passing a pipe
+                reward += 10.0  # Reward for passing a pipe
 
-        # Proximity to the next pipe gap
+        # Calculate distances to the next pipe gap
         next_pipe = self._get_next_pipe()
         if next_pipe:
             gap_center_y = next_pipe.gap_center_y
             vertical_distance_to_gap_center = abs(self.bird.rect.centery - gap_center_y)
-            reward -= vertical_distance_to_gap_center * 0.01
+            horizontal_distance_to_pipe = next_pipe.rect.left - self.bird.rect.right
+
+            # Adjust rewards and penalties based on proximity to the pipe
+            reward -= vertical_distance_to_gap_center * 0.005  # Penalty based on vertical distance
+            if horizontal_distance_to_pipe < 200:
+                reward += (200 - horizontal_distance_to_pipe) * 0.01  # Reward for approaching the pipe
+
+        # Penalties for risky behavior
+        if action == 1:  # Penalty for flapping
+            reward -= 0.1
+        if abs(self.bird.velocity) > 5:  # Penalty for high vertical speed
+            reward -= 0.05
+        if self.bird.rect.top <= 0 or self.bird.rect.bottom >= SCREEN_HEIGHT:  # Penalty for flying too high or low
+            reward -= 5
 
         # Penalty for dying
         if pygame.sprite.spritecollideany(self.bird, self.pipes) or not self.bird.alive:
-            reward = -10  # Give a negative reward for dying.
+            reward = -15
             self.running = False
 
         return self.get_state(), reward, not self.running
