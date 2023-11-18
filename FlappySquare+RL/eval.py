@@ -58,7 +58,7 @@ if __name__ == "__main__":
     num_layers = 2  # Number of LSTM layers
 
     game = FlappyBirdGame()
-    model = load_model(input_size, hidden_size, output_size, num_layers)
+    model = load_model(input_size, hidden_size, output_size, num_layers, 'flappy_bird_lstm.pth')
     model.eval()  # Set the model to evaluation mode
     model.to(device)
 
