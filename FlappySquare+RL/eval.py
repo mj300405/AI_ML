@@ -1,4 +1,4 @@
-from model import LSTMNet
+from LSTM_model import LSTMNet
 import torch
 from game import FlappyBirdGame
 import os
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     input_size = 6  # Number of features in your state vector
     hidden_size = 128  # Number of features in LSTM hidden state
     output_size = 2  # Number of actions the agent can take
-    num_layers = 2  # Number of LSTM layers
+    num_layers = 4  # Number of LSTM layers
 
     game = FlappyBirdGame()
     model = load_model(input_size, hidden_size, output_size, num_layers, 'flappy_bird_lstm.pth')

@@ -7,7 +7,7 @@ import torch
 import torch.optim as optim
 from collections import deque
 from itertools import count
-from model import LSTMNet  # Ensure your LSTMNet is correctly defined in model.py
+from LSTM_model import LSTMNet  # Ensure your LSTMNet is correctly defined in model.py
 from game import FlappyBirdGame, FPS
 
 # Set device for PyTorch
@@ -30,10 +30,10 @@ loss_fn = torch.nn.MSELoss()
 memory = deque(maxlen=100000)
 
 # Training hyperparameters
-num_episodes = 15000
+num_episodes = 25000
 batch_size = 1
 gamma = 0.99  # discount factor
-epsilon_start = 0.9
+epsilon_start = 0.0
 epsilon_end = 0.001
 epsilon_decay = 0.01
 decay_scale = 1
@@ -46,7 +46,7 @@ if os.path.isfile(model_path):
     print(f"Model loaded from {model_path}")
 
 # Function to decrease epsilon
-def decay_epsilon(episode, num_episodes=num_episodes, epsilon_start=epsilon_start, epsilon_end=epsilon_end, decay_factor=1.5):
+def decay_epsilon(episode, num_episodes=num_episodes, epsilon_start=epsilon_start, epsilon_end=epsilon_end, decay_factor=2):
     decay_rate = (epsilon_start - epsilon_end) * decay_factor / num_episodes
     return max(epsilon_end, epsilon_start - decay_rate * episode)
 
