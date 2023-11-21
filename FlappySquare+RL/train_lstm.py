@@ -39,7 +39,7 @@ epsilon_decay = 0.01
 decay_scale = 1
 
 # Load model if it exists
-model_path = 'flappy_bird_lstm.pth'
+model_path = 'model/flappy_bird_lstm.pth'
 if os.path.isfile(model_path):
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
@@ -144,9 +144,9 @@ for episode in range(num_episodes):
     # Saving model and printing episode stats
     if total_reward > best_score:
         best_score = total_reward
-        torch.save(model.state_dict(), 'flappy_bird_lstm_best.pth')
+        torch.save(model.state_dict(), 'model/flappy_bird_lstm_best.pth')
     if episode % save_interval == 0:
-        torch.save(model.state_dict(), 'flappy_bird_lstm.pth')
+        torch.save(model.state_dict(), 'mode;/flappy_bird_lstm.pth')
     if episode % print_every == 0:
         print(f"Episode {episode} complete with total reward: {total_reward}, Epsilon: {epsilon}")
 
