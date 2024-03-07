@@ -26,7 +26,7 @@ model = QNet(input_size, hidden_sizes, output_size).to(device)
 trainer = QTrainer(model, lr=learning_rate, gamma=gamma)
 
 # Training hyperparameters
-num_episodes = 150000
+num_episodes = 50000
 epsilon_start = 0.9
 epsilon_end = 0.01
 
